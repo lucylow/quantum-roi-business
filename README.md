@@ -1,4 +1,4 @@
-I could not reliably retrieve the repository source tree from GitHub in this environment, so I’m avoiding invented filenames, dependencies, API keys, or implementation claims. The README below is structured as a **25+ page, production-style documentation file for `quantum-roi-business`**, with implementation-neutral architecture diagrams that you can paste directly into the repository and then align with the exact source tree.
+
 
 # Quantum ROI Business
 
