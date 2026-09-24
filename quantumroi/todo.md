@@ -1,0 +1,47 @@
+# Project TODO
+
+- [x] Initialize Expo React Native TypeScript project
+- [x] Create mobile interface design plan
+- [x] Review QuantumROI product brief and code manuscripts
+- [x] Integrate compatible shared types, components, and business workflow foundations from the manuscripts
+- [x] Build premium QuantumROI home dashboard
+- [x] Add delivery-route optimization setup flow
+- [x] Add demo optimization execution with classical, quantum-inspired, and simulation labels
+- [x] Add results comparison and ROI summary
+- [x] Add experiment history and local persistence
+- [x] Add validation and accessible form states
+- [x] Add offline-safe and error states
+- [x] Add app branding and custom QuantumROI icon
+- [x] Add unit tests for optimization and validation logic
+- [x] Run typecheck, lint, tests, and preview verification
+- [x] Save final project checkpoint
+- [x] Integrate local persistence and experiment save/update/delete flows from the functionality manuscript
+- [x] Add offline queue/status messaging without claiming remote execution
+- [x] Add reusable accessible form and list-row primitives where they improve the MVP
+- [x] Add free-plan usage meter and upgrade/credits entry points
+- [x] Document production-safe billing boundary and keep receipt verification server-authoritative
+- [x] Add a safe AI assistant screen with demo-mode messaging and no client-side provider secrets
+- [x] Consolidate reusable accessibility helpers and UI primitives from the UI/UX manuscript where they fit the existing theme
+- [x] Inspect dynamic-motion package and integrate compatible motion polish without compromising reduced-motion behavior
+- [x] Add lightweight AI orchestration boundary with intent routing, structured responses, retry limits, redaction, and fallback messaging
+- [x] Add action-approval language for any future AI-triggered workflow changes
+- [x] Add focused tests for AI parsing and safety boundaries
+- [x] Add a lightweight Quantum Studio circuit editor and backend catalog with explicit simulation/hardware labeling
+- [x] Add quantum circuit validation tests and keep provider credentials server-side
+- [x] Review improved quantum package for compatible circuit, backend, and evidence-labeling enhancements
+- [x] Continue React Native UX improvement slice: richer navigation, stronger feedback states, and clearer entry points
+- [x] Review business-feature package for compatible workflow, settings, and business-domain improvements
+- [x] Review real-data business functionality package and select safe backend-ready workflows with local fallback
+- [x] Review quantum v4 package for compatible circuit editor, simulator, backend health, and evidence-labeling improvements
+- [x] Continue product-quality improvement slice with stronger data-ready states, navigation, and user feedback
+- [x] Continue task-management improvement slice with priorities, editing, deletion, and clearer local sync feedback
+- [x] Continue task-flow improvement slice with filters, inline editing, due-date support, and clearer status controls
+- [x] Continue task scheduling improvement slice with due-date support, sorting, and clearer operational summaries
+- [x] Continue task scheduling and interaction improvement slice with custom date entry, bulk actions, and clearer feedback
+- [x] Review onboarding manuscript for compatible first-run, resume-safe, and accessible flow pieces
+- [x] Add a local resumable onboarding flow that routes into the existing QuantumROI dashboard
+- [x] Review quantum education package for accessible lessons, circuit explanations, and safe learning-state patterns
+- [x] Add a local quantum learning screen and dashboard entry point
+- [x] Continue quantum learning improvement slice with persisted lesson progress and richer interactive education feedback
+- [x] Continue quantum learning improvement slice with interactive quiz feedback and persisted quiz state
+- [x] Continue quantum learning improvement slice with a bounded local circuit playground and clearer gate feedback
