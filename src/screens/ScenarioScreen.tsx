@@ -1,11 +1,11 @@
 import React, { useMemo, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Alert, StyleSheet, Text, View } from 'react-native';
 import type { OptimizationInput, ScreenName, SolverKind } from '../domain';
 import { colors, spacing } from '../theme';
 import { useApp } from '../context/AppContext';
 import { deliveryScenario, workforceScenario, portfolioScenario, robotScenario } from '../data/mock';
 import { AppHeader } from '../components/Header';
-import { Button, Card, Pill, ProgressBar, Section } from '../components/Primitives';
+import { Screen, Button, Card, Pill, ProgressBar, Section } from '../components/Primitives';
 import { useOptimization } from '../hooks/useOptimization';
 
 function dataForDomain(domain: OptimizationInput['problem']['domain']) {
@@ -31,20 +31,25 @@ export function ScenarioScreen({ navigate }: { navigate: (screen: ScreenName) =>
   }), [selectedProblem, solver, seed, iterations]);
 
   const execute = async () => {
-    const result = await run(input);
-    setLastResult(result);
-    saveExperiment({ id: result.runId, createdAt: new Date().toISOString(), scenarioName: selectedProblem.name, domain: selectedProblem.domain, solver: result.solver, result });
-    navigate('results');
+    if (busy) return;
+    try {
+      const result = await run(input);
+      setLastResult(result);
+      saveExperiment({ id: result.runId, createdAt: new Date().toISOString(), scenarioName: selectedProblem.name, domain: selectedProblem.domain, solver: result.solver, result });
+      navigate('results');
+    } catch (error) {
+      Alert.alert('Optimization could not run', error instanceof Error ? error.message : 'Please review the scenario and try again.');
+    }
   };
 
-  return <View style={styles.container}><AppHeader eyebrow="SCENARIO BUILDER" title={selectedProblem.name} subtitle={selectedProblem.description} badge={selectedProblem.domain} />
+  return <Screen><View style={styles.container}><AppHeader eyebrow="SCENARIO BUILDER" title={selectedProblem.name} subtitle={selectedProblem.description} badge={selectedProblem.domain} />
     <Card><View style={styles.row}><View style={{ flex: 1 }}><Text style={styles.label}>OBJECTIVE</Text><Text style={styles.objective}>{selectedProblem.objective}</Text></View><Pill tone="cyan">{selectedProblem.direction.toUpperCase()}</Pill></View></Card>
     <Section title="Solver strategy"><View style={styles.solverGrid}>{(['rko', 'simulatedAnnealing', 'greedy', 'quantumMock'] as SolverKind[]).map(option => <Button key={option} title={option === 'rko' ? 'RKO' : option === 'simulatedAnnealing' ? 'Annealing' : option === 'greedy' ? 'Greedy' : 'Quantum mock'} kind={solver === option ? 'primary' : 'secondary'} onPress={() => setSolver(option)} />)}</View></Section>
     <Card title="Experiment controls" eyebrow="REPRODUCIBILITY"><View style={styles.control}><Text style={styles.controlTitle}>Iterations</Text><View style={styles.stepper}><Button title="−" kind="secondary" onPress={() => setIterations(v => Math.max(10, v - 10))}/><Text style={styles.number}>{iterations}</Text><Button title="+" kind="secondary" onPress={() => setIterations(v => Math.min(120, v + 10))}/></View></View><ProgressBar value={iterations / 120} label="Search budget" caption={`${iterations}/120`} /><View style={styles.control}><Text style={styles.controlTitle}>Seed</Text><View style={styles.stepper}><Button title="−" kind="secondary" onPress={() => setSeed(v => Math.max(1, v - 1))}/><Text style={styles.number}>{seed}</Text><Button title="+" kind="secondary" onPress={() => setSeed(v => v + 1)}/></View></View></Card>
     <Card title="Constraints" eyebrow="ACTIVE"><View style={{ gap: 9 }}>{selectedProblem.constraints.filter(c => c.enabled).map(c => <View key={c.id} style={styles.constraint}><View style={[styles.dot, { backgroundColor: c.type === 'hard' ? colors.red : colors.amber }]} /><View style={{ flex: 1 }}><Text style={styles.ctitle}>{c.label}</Text><Text style={styles.cbody}>{c.description}</Text></View><Text style={styles.penalty}>{c.type}</Text></View>)}</View></Card>
     {error && <Card><Text style={{ color: colors.red, fontWeight: '800' }}>Run error</Text><Text style={{ color: colors.muted }}>{error}</Text></Card>}
     <Button title={busy ? 'Running optimization…' : `Run ${solver === 'quantumMock' ? 'quantum-style' : 'classical'} experiment`} onPress={execute} disabled={busy} />
-  </View>;
+  </View></Screen>;
 }
 
 const styles = StyleSheet.create({

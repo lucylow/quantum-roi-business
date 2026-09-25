@@ -14,6 +14,7 @@ import { QuboScreen } from './src/screens/QuboScreen';
 import { SettingsScreen } from './src/screens/SettingsScreen';
 import { BottomNav } from './src/components/BottomNav';
 import { colors } from './src/theme';
+import { AppErrorBoundary } from './src/components/AppErrorBoundary';
 
 function Shell() {
   const [screen, setScreen] = useState<ScreenName>('home');
@@ -41,5 +42,5 @@ function Shell() {
 }
 
 export default function App() {
-  return <AppProvider><Shell /></AppProvider>;
+  return <AppErrorBoundary><AppProvider><Shell /></AppProvider></AppErrorBoundary>;
 }

@@ -1,37 +1,55 @@
 {
   "name": "quantum-roi-business",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "private": true,
   "main": "expo/AppEntry.js",
+  "packageManager": "npm@10.9.2",
+  "engines": {
+    "node": ">=22.13.0 <23"
+  },
   "scripts": {
     "start": "expo start",
     "ios": "expo run:ios",
     "android": "expo run:android",
     "web": "expo start --web",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint .",
-    "test": "jest --runInBand",
-    "server": "python3 -m uvicorn server.main:app --reload --port 8787"
+    "test:unit": "jest --runInBand",
+    "test:release": "node --test tests/release.test.mjs",
+    "test": "npm run test:unit && npm run test:release",
+    "validate:config": "node scripts/validate-release.mjs",
+    "validate:source": "node scripts/validate-source.mjs",
+    "validate": "npm run validate:config && npm run validate:source",
+    "doctor": "npx expo-doctor",
+    "prebuild:ios": "npx expo prebuild --clean --platform ios",
+    "build:ios:preview": "npx --yes eas-cli@^16.20.0 build --platform ios --profile preview",
+    "build:ios:production": "npx --yes eas-cli@^16.20.0 build --platform ios --profile production",
+    "submit:ios": "npx --yes eas-cli@^16.20.0 submit --platform ios --profile production",
+    "server": "python3 -m uvicorn server.main:app --reload --host 127.0.0.1 --port 8787",
+    "validate:store": "node scripts/validate-store.mjs",
+    "release:check": "node scripts/release-check.mjs"
   },
   "jest": {
     "preset": "jest-expo"
   },
   "dependencies": {
-    "expo": "^57.0.0",
-    "expo-status-bar": "~57.0.1",
+    "expo": "~57.0.25",
+    "expo-constants": "~57.0.19",
+    "expo-status-bar": "57.0.1",
+    "expo-system-ui": "~57.0.4",
     "react": "19.2.3",
-    "react-dom": "19.2.3",
-    "react-native": "0.86.3",
-    "react-native-web": "^0.21.2"
+    "react-native": "0.86.3"
   },
   "devDependencies": {
-    "@types/jest": "^30.0.0",
+    "@types/jest": "^29.5.14",
     "@types/node": "^26.6.2",
-    "@types/react": "~19.2.2",
-    "eslint": "^9.39.5",
-    "eslint-config-expo": "~57.0.2",
-    "jest": "^30.2.0",
+    "@types/react": "~19.2.4",
+    "jest": "29.7.0",
     "jest-expo": "~57.0.5",
-    "typescript": "~6.0.3"
+    "typescript": "6.0.3"
+  },
+  "expo": {
+    "install": {
+      "exclude": []
+    }
   }
 }

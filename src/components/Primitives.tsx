@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   disabled: { opacity: 0.45 },
   metricTile: { flex: 1, minWidth: 140, backgroundColor: colors.surface2, borderRadius: radii.md, padding: spacing.md, borderWidth: 1, borderColor: colors.border },
   metricRow: { flexDirection: 'row', alignItems: 'baseline', gap: 5 },
-  metricValue: { fontSize: 27, lineHeight: 32, fontWeight: '900', color: colors.text },
+  metricValue: { fontSize: 27, lineHeight: 32, fontWeight: '800', color: colors.text },
   metricUnit: { color: colors.muted, fontSize: 12, fontWeight: '700' },
   row: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing.md },
   label: { color: colors.text, fontSize: 12, fontWeight: '700' },

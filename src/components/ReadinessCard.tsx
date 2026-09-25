@@ -13,9 +13,9 @@ const styles = StyleSheet.create({
   card: { backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border, borderRadius: 20, padding: spacing.lg, gap: spacing.md },
   row: { flexDirection: 'row', gap: spacing.md, alignItems: 'center' },
   eyebrow: { color: colors.muted, fontSize: 10, fontWeight: '900', letterSpacing: 0.8 },
-  title: { color: colors.text, fontSize: 19, fontWeight: '900', marginTop: 2 },
+  title: { color: colors.text, fontSize: 19, fontWeight: '800', marginTop: 2 },
   body: { color: colors.muted, lineHeight: 20, fontSize: 13 },
   metaRow: { flexDirection: 'row', gap: 30 },
   metaLabel: { color: colors.muted, fontSize: 9, fontWeight: '800' },
-  metaValue: { color: colors.text, fontSize: 19, fontWeight: '900', marginTop: 3 }
+  metaValue: { color: colors.text, fontSize: 19, fontWeight: '800', marginTop: 3 }
 });

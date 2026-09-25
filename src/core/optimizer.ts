@@ -6,8 +6,11 @@ import { optimizeRobotics } from './robotics';
 import { assessQuantumReadiness } from './readiness';
 import { buildDomainQubo } from './quboDomain';
 import { runHybridQuantumProof } from './hybridPipeline';
+import { assertValidOptimizationInput } from './inputGuards';
+import { stableRunId } from './stableRunId';
 
 export function runLocalOptimization(input: OptimizationInput): OptimizationResult {
+  assertValidOptimizationInput(input);
   if (input.solver === 'quantumMock' || input.solver === 'braket') {
     const proof = runHybridQuantumProof(input, 28);
     if (input.solver === 'braket') {
@@ -50,7 +53,7 @@ export function runLocalOptimization(input: OptimizationInput): OptimizationResu
   ];
 
   return {
-    runId: `run_${Date.now()}_${input.seed}`,
+    runId: stableRunId(input, 'run'),
     problemId: problem.id,
     solver: input.solver,
     status: 'complete',

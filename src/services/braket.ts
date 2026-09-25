@@ -1,5 +1,7 @@
 import type { OptimizationResult, QuboModel } from '../domain';
 import { serializeQubo, quboToIsing } from '../core/qubo';
+import { runtimeConfig } from '../config';
+import { requestJson } from './http';
 
 export interface BraketJobRequest {
   deviceArn: string;
@@ -10,29 +12,38 @@ export interface BraketJobRequest {
 
 export interface BraketJobResponse {
   taskId: string;
-  status: 'queued' | 'running' | 'completed' | 'blocked';
+  status: 'queued' | 'running' | 'completed' | 'blocked' | 'error';
   message: string;
+  issues?: string[];
 }
 
-/**
- * Mobile-safe adapter. No AWS credentials belong in the app. The mobile app
- * sends a signed/authorized request to the server, which can call Braket.
- */
 export async function queueBraketExperiment(request: BraketJobRequest): Promise<BraketJobResponse> {
-  const isConfigured = Boolean(process.env.EXPO_PUBLIC_API_BASE_URL);
-  if (!isConfigured) {
-    return { taskId: `mock-${request.runId}`, status: 'blocked', message: 'No optimization API configured. Configure the server adapter for live Braket.' };
+  serializeQubo(request.qubo);
+  quboToIsing(request.qubo);
+
+  if (!runtimeConfig.apiBaseUrl) {
+    return { taskId: `local-${request.runId}`, status: 'blocked', message: 'Live Braket is disabled because this build has no server endpoint.' };
   }
-  void serializeQubo(request.qubo);
-  void quboToIsing(request.qubo);
-  return {
-    taskId: `braket_pending_${request.runId}`,
-    status: 'queued',
-    message: 'Experiment queued through the server boundary. Credentials remain off-device.'
-  };
+
+  if (!/^arn:aws:braket:[a-z0-9-]+::device\/(qpu|simulator)\//.test(request.deviceArn)) {
+    return { taskId: `invalid-${request.runId}`, status: 'error', message: 'The configured Braket device ARN is invalid.' };
+  }
+
+  try {
+    return await requestJson<BraketJobResponse>(runtimeConfig.apiBaseUrl, '/v1/braket/submit', {
+      method: 'POST',
+      body: JSON.stringify({ ...request, qubo: request.qubo }),
+    }, { timeoutMs: 10_000, retries: 0 });
+  } catch (error) {
+    return {
+      taskId: `error-${request.runId}`,
+      status: 'error',
+      message: error instanceof Error ? error.message.slice(0, 250) : 'Quantum experiment request failed.',
+    };
+  }
 }
 
 export function quantumResultToBusinessResult(result: OptimizationResult): string {
   const ready = result.quantumReadiness;
-  return `${ready.category} quantum experiment; ${ready.qubitsEstimate} logical variables; estimated embedding overhead ${ready.embeddingOverhead}x.`;
+  return `${ready.category}; ${ready.qubitsEstimate} logical variables; estimated embedding overhead ${ready.embeddingOverhead}x.`;
 }

@@ -9,7 +9,7 @@ import type { OptimizationInput, ScreenName } from '../domain';
 import { deliveryScenario, workforceScenario, portfolioScenario, robotScenario } from '../data/mock';
 import { colors, spacing, typography } from '../theme';
 import { AppHeader } from '../components/Header';
-import { Button, Card, Pill, ProgressBar, Section } from '../components/Primitives';
+import { Screen, Button, Card, Pill, ProgressBar, Section } from '../components/Primitives';
 import { shareExperimentBrief } from '../services/share';
 import { Alert } from 'react-native';
 
@@ -28,7 +28,7 @@ export function InsightsScreen({ navigate }: { navigate: (screen: ScreenName) =>
     try { await shareExperimentBrief({ title: selectedProblem.name, domain: selectedProblem.domain, result: lastResult, audit }); } catch (error) { Alert.alert('Share unavailable', error instanceof Error ? error.message : 'The share sheet could not be opened.'); }
   };
 
-  return <View style={styles.container}><AppHeader eyebrow="EXECUTIVE INSIGHT" title="Turn optimization into a decision memo." subtitle="The same run can be read as math, operations, economics, or governance—without changing the underlying evidence." badge="BOARDROOM" />
+  return <Screen><View style={styles.container}><AppHeader eyebrow="EXECUTIVE INSIGHT" title="Turn optimization into a decision memo." subtitle="The same run can be read as math, operations, economics, or governance—without changing the underlying evidence." badge="BOARDROOM" />
     <Card style={styles.narrative}><Pill tone="cyan">ONE RUN · FOUR LENSES</Pill><Text style={styles.headline}>{brief.headline}</Text><Text style={styles.body}>{brief.impact}</Text></Card>
     <Section title="Business impact"><View style={styles.stack}>{impact.length ? impact.map(item => <Card key={item.title} style={styles.compact}><View style={styles.row}><View style={{ flex: 1 }}><Text style={styles.cardTitle}>{item.title}</Text><Text style={styles.body}>{item.statement}</Text></View><Text style={styles.value}>{item.value.toFixed(item.unit === 'USD' ? 0 : 1)} <Text style={styles.unit}>{item.unit}</Text></Text></View></Card>) : <Card><Text style={styles.body}>Run an experiment to generate modeled impact.</Text></Card>}</View></Section>
     <Section title="Sensitivity map"><Card><Text style={styles.body}>Move one assumption at a time before escalating a model to cloud quantum hardware.</Text><View style={styles.stack}>{sensitivity.map(point => <View key={point.id} style={{ gap: 5 }}><View style={styles.row}><Text style={styles.label}>{point.label}</Text><Text style={styles.muted}>{point.baseline}{point.unit}</Text></View><ProgressBar value={0.5} caption={`${point.low.toFixed(1)} → ${point.high.toFixed(1)}${point.unit}`} /></View>)}</View></Card></Section>
@@ -37,7 +37,7 @@ export function InsightsScreen({ navigate }: { navigate: (screen: ScreenName) =>
     <View style={styles.actions}><Button title="Back to results" kind="secondary" onPress={() => navigate('results')} /><Button title="Share proof brief" onPress={share} /></View>
     <Button title="Run another scenario" kind="secondary" onPress={() => navigate('scenario')} />
     <Card><Text style={styles.muted}>Available problem families: {useCases.map(u => u.domain).join(' · ')}</Text></Card>
-  </View>;
+  </View></Screen>;
 }
 
 const styles = StyleSheet.create({
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   stack: { gap: 10 },
   compact: { padding: spacing.md },
   row: { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  cardTitle: { color: colors.text, fontWeight: '900', marginBottom: 3 },
+  cardTitle: { color: colors.text, fontWeight: '800', marginBottom: 3 },
   value: { color: colors.cyan, fontSize: 19, fontWeight: '900' },
   unit: { color: colors.muted, fontSize: 10 },
   label: { color: colors.text, fontSize: 10, fontWeight: '900' },

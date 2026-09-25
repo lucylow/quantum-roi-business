@@ -3,6 +3,7 @@ import { buildDomainQubo } from './quboDomain';
 import { sampleQuboLocally } from './quantumMock';
 import { assessQuantumReadiness } from './readiness';
 import type { OptimizationInput } from '../domain';
+import { stableRunId } from './stableRunId';
 
 export interface KernelReduction {
   originalVariables: number;
@@ -84,7 +85,7 @@ export function runHybridQuantumProof(input: OptimizationInput, maxVariables = 2
   const readiness = assessQuantumReadiness(input.problem, reduced);
   const selected = sample.bestBits.reduce((sum, bit) => sum + bit, 0);
   const result: OptimizationResult = {
-    runId: `qmock_${Date.now()}_${input.seed}`,
+    runId: stableRunId(input, 'qmock'),
     problemId: input.problem.id,
     solver: 'quantumMock',
     status: 'complete',

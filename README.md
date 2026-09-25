@@ -92,13 +92,15 @@ pip install -r server/requirements.txt
 uvicorn server.main:app --reload --port 8787
 ```
 
-Set:
+For local development only, set:
 
 ```text
 EXPO_PUBLIC_API_BASE_URL=http://localhost:8787
 ```
 
 The mobile optimizer automatically falls back to its deterministic local engine when the server is unavailable.
+
+For an App Store build, either omit `EXPO_PUBLIC_API_BASE_URL` to retain local-first mode or set a real HTTPS endpoint. Never embed a localhost endpoint in a production build; see [the iOS submission guide](APP_STORE_SUBMISSION.md) for the complete release checklist.
 
 ## Production hardening direction
 

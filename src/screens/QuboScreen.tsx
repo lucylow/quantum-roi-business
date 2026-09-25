@@ -7,7 +7,7 @@ import { quboToIsing } from '../core/qubo';
 import { deliveryScenario, workforceScenario, portfolioScenario, robotScenario } from '../data/mock';
 import { colors, spacing } from '../theme';
 import { AppHeader } from '../components/Header';
-import { Button, Card, Pill, Section } from '../components/Primitives';
+import { Screen, Button, Card, Pill, Section } from '../components/Primitives';
 
 function scenarioData(domain: string) {
   if (domain === 'delivery') return deliveryScenario;
@@ -22,14 +22,14 @@ export function QuboScreen({ navigate }: { navigate: (screen: ScreenName) => voi
   const ising = useMemo(() => quboToIsing(model), [model]);
   const linearSample = model.linear.slice(0, 10);
   const quadraticSample = Object.entries(model.quadratic).slice(0, 12);
-  return <View style={styles.container}><AppHeader eyebrow="MATHEMATICAL MODEL" title="See the optimization, not just the score." subtitle="This screen is the proof layer: binary variables, couplings, constraints, and the QUBO → Ising transformation are inspectable." badge="QUBO" />
+  return <Screen><View style={styles.container}><AppHeader eyebrow="MATHEMATICAL MODEL" title="See the optimization, not just the score." subtitle="This screen is the proof layer: binary variables, couplings, constraints, and the QUBO → Ising transformation are inspectable." badge="QUBO" />
     <View style={styles.metrics}><Card style={styles.metric}><Text style={styles.big}>{model.n}</Text><Text style={styles.small}>LOGICAL VARIABLES</Text></Card><Card style={styles.metric}><Text style={styles.big}>{Object.keys(model.quadratic).length}</Text><Text style={styles.small}>PAIRWISE TERMS</Text></Card><Card style={styles.metric}><Text style={styles.big}>{model.constraints.length}</Text><Text style={styles.small}>CONSTRAINTS</Text></Card></View>
     <Section title="Variable encoding"><Card><View style={styles.codeBox}><Text style={styles.code}>xᵢ ∈ {'{0, 1}'}{`\n`}H(x) = xᵀQx{`\n`}zᵢ = 1 − 2xᵢ{`\n`}H(z) = ΣJᵢⱼzᵢzⱼ + Σhᵢzᵢ + offset</Text></View><Text style={styles.body}>The talk emphasizes QUBO / Ising as the quantum-native formulation accepted by quantum annealing or hybrid QAOA workflows. This app keeps the reduction explicit so a technical reviewer can trace decisions back to the business model.</Text></Card></Section>
     <Section title="Linear coefficients"><Card>{linearSample.map((value, index) => <View key={index} style={styles.tableRow}><Text style={styles.key}>{model.variableLabels[index]}</Text><Text style={styles.value}>{value.toFixed(3)}</Text></View>)}</Card></Section>
     <Section title="Quadratic interactions"><Card>{quadraticSample.map(([key, value]) => <View key={key} style={styles.tableRow}><Text style={styles.key}>{key}</Text><Text style={styles.value}>{value.toFixed(3)}</Text></View>)}</Card></Section>
     <Card title="Ising conversion" eyebrow="DERIVED"><Text style={styles.body}>h terms: {ising.h.slice(0, 8).map(v => v.toFixed(2)).join(', ')}{ising.h.length > 8 ? ' …' : ''}</Text><Text style={styles.body}>J terms: {Object.keys(ising.J).length}</Text><Text style={styles.body}>Offset: {ising.offset.toFixed(3)}</Text><Pill tone="purple">TRACEABLE</Pill></Card>
     <Button title="Back to experiment lab" onPress={() => navigate('experiment')} />
-  </View>;
+  </View></Screen>;
 }
 
 const styles = StyleSheet.create({
