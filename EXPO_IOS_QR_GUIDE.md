@@ -1,11 +1,12 @@
 # Expo iOS QR Guide
 
-This package contains two permanent QR codes in [`qr/`](qr/):
+This package contains three permanent QR codes in [`qr/`](qr/):
 
 | File | Scan result | Use |
 |---|---|---|
 | `IOS_EXPO_GO_APP_STORE_QR.png` | Opens [Expo Go in the iOS App Store](https://apps.apple.com/us/app/expo-go/id982107779) | Install Expo Go on an iPhone or iPad. |
 | `GITHUB_REPOSITORY_QR.png` | Opens [the GitHub repository](https://github.com/lucylow/quantum-roi-business) | View, clone, or publish the source repository. |
+| `MOBILE_REDESIGN_REFERENCE_QR.png` | Opens [the mobile redesign reference](https://github.com/lucylow/Quantum-ROI-MobileMockupRedesign) | Review the original visual mockup source that informed this React Native implementation. |
 
 ## Important distinction: Expo Go QR vs. installed-app QR
 

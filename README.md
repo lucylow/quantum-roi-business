@@ -28,6 +28,18 @@ Braket experiment boundary
 Reproducible experiment brief
 ```
 
+## Mobile redesign
+
+The app now uses an executive mobile design system translated from the [Quantum ROI Mobile Mockup Redesign](https://github.com/lucylow/Quantum-ROI-MobileMockupRedesign) into accessible React Native components. It includes:
+
+- a responsive command-center overview with modeled-value, readiness, and activity signals;
+- searchable optimization use cases and a guided, classical-first workbench;
+- scenario, business-impact, quantum-readiness, and experiment-history views;
+- an iPhone-safe five-item navigation bar, with shortcuts to the extended workspace;
+- deterministic synthetic enterprise data and clear simulated/no-QPU-result labels.
+
+See [`docs/FIGMA_MOCKUP_INTEGRATION.md`](docs/FIGMA_MOCKUP_INTEGRATION.md) for the screen map and the included visual reference.
+
 ## Talk-inspired use cases
 
 The included mobile demo has four deeply modeled examples:

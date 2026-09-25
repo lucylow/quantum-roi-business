@@ -14,7 +14,7 @@
     "web": "expo start --web",
     "typecheck": "tsc --noEmit",
     "test:unit": "jest --runInBand",
-    "test:release": "node --test tests/release.test.mjs",
+    "test:release": "node --test tests/*.test.mjs",
     "test": "npm run test:unit && npm run test:release",
     "validate:config": "node scripts/validate-release.mjs",
     "validate:source": "node scripts/validate-source.mjs",
@@ -37,7 +37,9 @@
     "expo-status-bar": "57.0.1",
     "expo-system-ui": "~57.0.4",
     "react": "19.2.3",
-    "react-native": "0.86.3"
+    "react-dom": "19.2.3",
+    "react-native": "0.86.3",
+    "react-native-web": "^0.21.2"
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",

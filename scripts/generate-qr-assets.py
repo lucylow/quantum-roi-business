@@ -12,6 +12,7 @@ QR_DIR = ROOT / "qr"
 ASSETS = {
     "IOS_EXPO_GO_APP_STORE_QR.png": "https://apps.apple.com/us/app/expo-go/id982107779",
     "GITHUB_REPOSITORY_QR.png": "https://github.com/lucylow/quantum-roi-business",
+    "MOBILE_REDESIGN_REFERENCE_QR.png": "https://github.com/lucylow/Quantum-ROI-MobileMockupRedesign",
 }
 
 
