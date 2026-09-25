@@ -83,6 +83,10 @@ npx expo run:ios
 
 or use EAS Build after configuring your own identifiers and Apple credentials.
 
+## iPhone QR codes
+
+The repository includes a permanent QR code for installing Expo Go from the iOS App Store and a QR code for opening this GitHub repository. See [EXPO_IOS_QR_GUIDE.md](EXPO_IOS_QR_GUIDE.md) for the image files and for the exact steps to generate a temporary Expo Go development QR or a real EAS preview-build installation QR. An app-specific QR is intentionally not fabricated until the project is linked to an authenticated Expo account and an actual build or update exists.
+
 ## Run the optional API
 
 ```bash
