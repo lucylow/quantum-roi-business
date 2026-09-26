@@ -4,6 +4,8 @@
 
 A mobile-first enterprise optimization laboratory that starts with a real business decision, establishes a classical baseline, explores optimization strategies, translates results into business value, and exposes a quantum-ready mathematical formulation when a quantum experiment is technically appropriate.
 
+![](https://github.com/lucylow/quantum-roi-business/blob/main/GKH.png?raw=true)
+
 ![](https://github.com/lucylow/quantum-roi-business/blob/main/design-reference/546436.png?raw=true)
 ![](https://github.com/lucylow/quantum-roi-business/blob/main/design-reference/675675.png?raw=true)
 ![](https://github.com/lucylow/quantum-roi-business/blob/main/design-reference/756765.png?raw=true)
