@@ -4,12 +4,7 @@
 
 A mobile-first enterprise optimization laboratory that starts with a real business decision, establishes a classical baseline, explores optimization strategies, translates results into business value, and exposes a quantum-ready mathematical formulation when a quantum experiment is technically appropriate.
 
-![](https://github.com/lucylow/quantum-roi-business/blob/main/design-reference/546436.png?raw=true)
-![](https://github.com/lucylow/quantum-roi-business/blob/main/design-reference/675675.png?raw=true)
-![](https://github.com/lucylow/quantum-roi-business/blob/main/design-reference/756765.png?raw=true)
-![](https://github.com/lucylow/quantum-roi-business/blob/main/design-reference/768678.png?raw=true)
-
-> **Important:** Quantum ROI Business is an independent research/product prototype. It is not an Amazon or AWS product, does not contain Amazon internal data, and does not claim endorsement by Amazon, AWS, or any individual mentioned in the source material.
+> **Important:** Quantum ROI Business is an independent research/product prototype. It is not an enterprise or cloud provider product, does not contain enterprise internal data, and does not claim endorsement by enterprise, cloud provider, or any individual mentioned in the source material.
 >
 > All numbers shown in the demo UI are **synthetic demonstration data** unless explicitly connected to a customer-owned production system.
 
@@ -40,7 +35,7 @@ A mobile-first enterprise optimization laboratory that starts with a real busine
 21. [Realistic Synthetic Data](#21-realistic-synthetic-data)
 22. [Application Navigation](#22-application-navigation)
 23. [API Architecture](#23-api-architecture)
-24. [Amazon Braket Integration Boundary](#24-amazon-braket-integration-boundary)
+24. [Quantum Cloud Backend Integration Boundary](#24-quantum-cloud-backend-integration-boundary)
 25. [Security & Data Governance](#25-security--data-governance)
 26. [Reliability & Error Handling](#26-reliability--error-handling)
 27. [Offline-First Demonstration Behavior](#27-offline-first-demonstration-behavior)
@@ -83,7 +78,7 @@ The application provides two complementary experiences:
 
 The frontend was redesigned as a mobile-first enterprise interface while retaining desktop/tablet information density. The primary visual language uses deep navy, graphite surfaces, restrained blue/teal accents, and a limited violet layer for quantum-specific concepts. This makes the product feel technical without falling into a generic “futuristic quantum” aesthetic.
 
-The current implementation includes a React Native / Expo application, a Python FastAPI service boundary, a reusable TypeScript optimization core, QUBO and Ising utilities, deterministic mock datasets, scenario analysis, business-impact translation, experiment history, offline storage, release validation scripts, and an explicit Amazon Braket adapter boundary.
+The current implementation includes a React Native / Expo application, a Python FastAPI service boundary, a reusable TypeScript optimization core, QUBO and Ising utilities, deterministic mock datasets, scenario analysis, business-impact translation, experiment history, offline storage, release validation scripts, and an explicit quantum cloud backend adapter boundary.
 
 ## Product loop
 
@@ -165,7 +160,7 @@ That is the core product contract.
 
 # 3. Source-Grounded Product Philosophy
 
-The supplied Dr. Martin Schuetz / AWS career-connections material contains several recurring ideas that directly shape this application.
+The supplied the supplied speaker / cloud provider career-connections material contains several recurring ideas that directly shape this application.
 
 First is the distinction between **problem-focused research** and **method-focused research**. The problem-focused framing is especially important for this product: work backwards from the industry problem and remain tool-agnostic.
 
@@ -192,7 +187,7 @@ flowchart TD
     V --> D[Decision Evidence]
 ```
 
-The application is therefore best understood as a productization of the **workflow discipline** represented in the source material, not as a claim that it reproduces any specific production system from Amazon or any other organization.
+The application is therefore best understood as a productization of the **workflow discipline** represented in the source material, not as a claim that it reproduces any specific production system from enterprise or any other organization.
 
 ---
 
@@ -379,8 +374,8 @@ flowchart TB
     SERVICES[Mobile Services]
     CORE[TypeScript Optimization Core]
     API[FastAPI Service Boundary]
-    QUANTUM[Braket Adapter]
-    AWS[Amazon Braket / Simulators / QPUs]
+    QUANTUM[Quantum Cloud Adapter]
+    QB[Quantum cloud backend / Simulators / QPUs]
 
     UI --> STATE
     UI --> SERVICES
@@ -389,7 +384,7 @@ flowchart TB
     SERVICES --> API
     API --> CORE
     API --> QUANTUM
-    QUANTUM --> AWS
+    QUANTUM --> cloud provider
 ```
 
 ## Layer responsibilities
@@ -416,7 +411,7 @@ The FastAPI server exposes bounded JSON endpoints and keeps cloud credentials ou
 
 ### Quantum layer
 
-`server/braket_adapter.py` is intentionally a backend boundary rather than a UI concern.
+`server/quantum_backend_adapter.py` is intentionally a backend boundary rather than a UI concern.
 
 ---
 
@@ -457,7 +452,7 @@ The repository is organized around the separation above.
 │   ├── models.py
 │   ├── optimizers.py
 │   ├── qubo.py
-│   ├── braket_adapter.py
+│   ├── quantum backend_adapter.py
 │   ├── request_validation.py
 │   ├── security.py
 │   ├── limits.py
@@ -504,7 +499,7 @@ The repository contains both the original product screens and the redesign layer
 - FastAPI
 - Pydantic
 - Uvicorn
-- AWS SDK boundary through the Braket adapter
+- cloud provider SDK boundary through the quantum-cloud adapter
 
 ## Optimization
 
@@ -1010,7 +1005,7 @@ Local quantum-style sampler
     ↓
 Quantum readiness
     ↓
-Optional Braket experiment
+Optional quantum backend experiment
     ↓
 Postprocessing
     ↓
@@ -1314,7 +1309,7 @@ Recommended UI label:
 
 > `Synthetic demonstration data`
 
-The app must never imply that demo values are Amazon internal metrics or measured customer results.
+The app must never imply that demo values are enterprise internal metrics or measured customer results.
 
 ---
 
@@ -1379,7 +1374,7 @@ The FastAPI service provides a controlled server boundary.
 GET  /health
 POST /v1/model/qubo
 POST /v1/optimize
-POST /v1/braket/submit
+POST /v1/quantum-backend/submit
 ```
 
 ## Request pipeline
@@ -1390,14 +1385,14 @@ sequenceDiagram
     participant API as FastAPI
     participant V as Validation
     participant C as Core / QUBO
-    participant B as Braket Adapter
+    participant B as Quantum Cloud Adapter
 
     M->>API: POST request + X-Request-ID
     API->>V: size / schema / depth checks
     V-->>API: validated request
     API->>C: build / optimize / formulate
     C-->>API: result
-    alt live Braket requested
+    alt live quantum-cloud requested
         API->>B: controlled submission
         B-->>API: task state
     end
@@ -1410,7 +1405,7 @@ Returns a small service-health object including:
 
 - service name
 - API version
-- live Braket enablement
+- live quantum-cloud enablement
 
 ## `/v1/model/qubo`
 
@@ -1420,7 +1415,7 @@ Builds a normalized QUBO representation and returns a stable run ID.
 
 Returns a server-side demo optimization result with bounded iterations and a safety-net path.
 
-## `/v1/braket/submit`
+## `/v1/quantum-backend/submit`
 
 Explicitly blocked unless the server-side live flag is enabled.
 
@@ -1428,16 +1423,16 @@ This endpoint should not be exposed publicly without authentication, authorizati
 
 ---
 
-# 24. Amazon Braket Integration Boundary
+# 24. Quantum Cloud Backend Integration Boundary
 
-The design keeps AWS credentials off the mobile device.
+The design keeps cloud provider credentials off the mobile device.
 
 ```mermaid
 flowchart LR
     APP[iPhone / iPad]
     API[Application API]
     IAM[IAM / Runtime Role]
-    BR[Amazon Braket]
+    BR[quantum cloud backend]
     S3[S3 Result Storage]
     DB[Experiment Store]
 
@@ -1455,24 +1450,24 @@ flowchart LR
 The server-side boundary expects values such as:
 
 ```text
-AWS_REGION=us-east-1
-BRAKET_DEVICE_ARN=<compatible-device-arn>
-BRAKET_S3_BUCKET=<customer-controlled-bucket>
-BRAKET_S3_PREFIX=quantum-roi/
+cloud provider_REGION=us-east-1
+QUANTUM_DEVICE_ARN=<compatible-device-arn>
+QUANTUM_RESULT_BUCKET=<customer-controlled-bucket>
+QUANTUM_RESULT_PREFIX=quantum-roi/
 ```
 
 ## Production principles
 
 Never ship:
 
-- AWS access keys
+- cloud provider access keys
 - secret keys
 - long-lived IAM tokens
 - privileged cloud credentials
 
 in an Expo application.
 
-The mobile client should authenticate to the application backend. The backend should own the Braket submission process.
+The mobile client should authenticate to the application backend. The backend should own the quantum-cloud submission process.
 
 ## Device compatibility
 
@@ -1512,7 +1507,7 @@ The phone may safely contain:
 
 The phone should not contain:
 
-- AWS credentials
+- cloud provider credentials
 - customer master data without an approved storage architecture
 - privileged IAM tokens
 - secrets for third-party systems
@@ -1971,7 +1966,7 @@ Example response:
   "ok": true,
   "service": "quantum-roi-business",
   "version": "2.0.1",
-  "liveBraketEnabled": false
+  "livequantum backendEnabled": false
 }
 ```
 
@@ -2001,10 +1996,10 @@ flowchart TB
     GATEWAY[API Gateway / Load Balancer]
     API[Optimization Service]
     QUEUE[Job Queue]
-    WORKER[Optimization / Braket Worker]
+    WORKER[Optimization / quantum backend Worker]
     DB[(Experiment Database)]
     S3[(S3 Artifacts)]
-    BR[Amazon Braket]
+    BR[quantum cloud backend]
     OBS[CloudWatch / Audit / Metrics]
 
     APP --> GATEWAY
@@ -2237,7 +2232,7 @@ Worker / server
    +--> optimization
    +--> QUBO generation
    +--> simulation
-   +--> Braket jobs
+   +--> quantum backend jobs
 ```
 
 ---
@@ -2365,7 +2360,7 @@ The app works on the developer Mac but not on a physical device.
 
 ---
 
-## Failure: live Braket failure becomes a fake success
+## Failure: live quantum-cloud failure becomes a fake success
 
 ### Symptom
 
@@ -2491,7 +2486,7 @@ from one that collapses all six into a single green “success” state.
 - exact baseline selection
 - immutable model versions
 
-## Phase 2 — Braket execution
+## Phase 2 — quantum-cloud execution
 
 - solver-specific compilation
 - device property discovery
@@ -2579,7 +2574,7 @@ fix: prevent invalid qubo rendering
 perf: memoize scenario summary
 security: reject untrusted production origins
 test: add deterministic rko regression case
-docs: update braket experiment contract
+docs: update quantum backend experiment contract
 ```
 
 ---
@@ -2602,7 +2597,7 @@ The following mapping describes how themes from the supplied presentation become
 | Hybrid pipeline | `src/core/hybridPipeline.ts` |
 | Quantum readiness | `src/core/readiness.ts` |
 | Scenario analysis | sensitivity/scenario modules |
-| Amazon Braket | `server/braket_adapter.py` |
+| quantum cloud backend | `server/quantum_backend_adapter.py` |
 | Business value | `src/core/businessImpact.ts` |
 | Evidence/review | experiment/report components |
 
@@ -2625,8 +2620,8 @@ flowchart TB
     R[Readiness / Embedding]
     API[FastAPI]
     W[Async Worker]
-    B[Braket Adapter]
-    QB[Quantum Backend]
+    B[Quantum Cloud Adapter]
+    QB[Quantum Cloud Backend]
     E[Experiment Store]
     A[Evidence / Reports]
 
@@ -2811,7 +2806,7 @@ These values are illustrative and should not be interpreted as measured hardware
   "ok": true,
   "service": "quantum-roi-business",
   "version": "2.0.1",
-  "liveBraketEnabled": false
+  "livequantum backendEnabled": false
 }
 ```
 
@@ -2833,7 +2828,7 @@ Response shape:
 }
 ```
 
-## POST `/v1/braket/submit`
+## POST `/v1/quantum-backend/submit`
 
 When live execution is not enabled:
 
@@ -2841,7 +2836,7 @@ When live execution is not enabled:
 {
   "status": "blocked",
   "taskId": "blocked-QX-1048",
-  "message": "Live Braket execution is disabled. Enable it explicitly on the server after configuring IAM, S3, device allowlists, quotas, and cost controls."
+  "message": "Live quantum-cloud execution is disabled. Enable it explicitly on the server after configuring IAM, S3, device allowlists, quotas, and cost controls."
 }
 ```
 
@@ -3026,7 +3021,7 @@ That is the intended “wow” factor of the product: not a flashy quantum anima
 - `src/services/experimentRunner.ts`
 - `src/services/offlineRunStore.ts`
 - `src/services/quboService.ts`
-- `src/services/braket.ts`
+- `src/services/quantumBackend.ts`
 - `src/services/reportGenerator.ts`
 
 ### Backend
@@ -3035,7 +3030,7 @@ That is the intended “wow” factor of the product: not a flashy quantum anima
 - `server/models.py`
 - `server/qubo.py`
 - `server/optimizers.py`
-- `server/braket_adapter.py`
+- `server/quantum_backend_adapter.py`
 - `server/security.py`
 - `server/request_validation.py`
 - `server/limits.py`
@@ -3108,19 +3103,19 @@ Record seeds, versions, inputs, constraints, and model hashes.
 
 ## Appendix D — Frequently Asked Questions
 
-### Is this an Amazon product?
+### Is this an enterprise product?
 
 No. It is an independent project inspired by the business-first optimization themes in the supplied presentation and by general enterprise optimization architecture.
 
 ### Does the app run on a real quantum computer by default?
 
-No. The default path is deliberately safe and can use a local quantum-style simulation. Live Braket execution is a separately controlled backend capability.
+No. The default path is deliberately safe and can use a local quantum-style simulation. Live quantum-cloud execution is a separately controlled backend capability.
 
 ### Why is there a classical optimizer in a quantum product?
 
 Because a credible optimization experiment needs a classical baseline. The product is designed to compare methods rather than assume the answer in advance.
 
-### Can the mobile app contain AWS credentials?
+### Can the mobile app contain cloud provider credentials?
 
 It should not. Credentials belong on the server-side boundary.
 
