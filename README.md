@@ -4,6 +4,12 @@
 
 A mobile-first enterprise optimization laboratory that starts with a real business decision, establishes a classical baseline, explores optimization strategies, translates results into business value, and exposes a quantum-ready mathematical formulation when a quantum experiment is technically appropriate.
 
+![](https://github.com/lucylow/quantum-roi-business/blob/main/design-reference/546436.png?raw=true)
+![](https://github.com/lucylow/quantum-roi-business/blob/main/design-reference/675675.png?raw=true)
+![](https://github.com/lucylow/quantum-roi-business/blob/main/design-reference/756765.png?raw=true)
+![](https://github.com/lucylow/quantum-roi-business/blob/main/design-reference/768678.png?raw=true)
+
+
 > **Important:** Quantum ROI Business is an independent research/product prototype. It is not an enterprise or cloud provider product, does not contain enterprise internal data, and does not claim endorsement by enterprise, cloud provider, or any individual mentioned in the source material.
 >
 > All numbers shown in the demo UI are **synthetic demonstration data** unless explicitly connected to a customer-owned production system.
